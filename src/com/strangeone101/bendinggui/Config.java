@@ -9,9 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 import org.bukkit.util.FileUtil;
 
 import com.projectkorra.projectkorra.Element;
@@ -66,18 +64,18 @@ public class Config
 			
 			for (Element e : Element.getSubElements())
 			{
-				String stringicon = config.getString("Icons.SubElements." + e.getName(), saveMaterialData(elementIcons.get(e)));
-				Material icon = loadMaterialData(stringicon);
+				String stringicon = config.getString("Icons.SubElements." + e.getName(), saveMaterial(elementIcons.get(e)));
+				Material icon = loadMaterial(stringicon);
 				elementIcons.put(e, icon);
 			}
 			
 			for (Element e1 : Element.getMainElements())
 			{
-				String stringicon = config.getString("Icons.Elements." + e1.getName(), saveMaterialData(elementIcons.get(e1)));
-				Material icon = loadMaterialData(stringicon);
+				String stringicon = config.getString("Icons.Elements." + e1.getName(), saveMaterial(elementIcons.get(e1)));
+				Material icon = loadMaterial(stringicon);
 				elementIcons.put(e1, icon);
 			}
-			avatarIcon = loadMaterialData(config.getString("Icons.Elements.Avatar", saveMaterialData(avatarIcon)));
+			avatarIcon = loadMaterial(config.getString("Icons.Elements.Avatar", saveMaterial(avatarIcon)));
 			
 			fireDesc = config.getString("General.Description.Fire", fireDesc);
 			waterDesc = config.getString("General.Description.Water", waterDesc);
@@ -118,10 +116,10 @@ public class Config
 		
 		for (Element e1 : elementIcons.keySet())
 		{
-			if (e1 instanceof SubElement) config.set("Icons.SubElements." + e1.getName(), saveMaterialData(elementIcons.get(e1)));
-			else config.set("Icons.Elements." + e1.getName(), saveMaterialData(elementIcons.get(e1)));
+			if (e1 instanceof SubElement) config.set("Icons.SubElements." + e1.getName(), saveMaterial(elementIcons.get(e1)));
+			else config.set("Icons.Elements." + e1.getName(), saveMaterial(elementIcons.get(e1)));
 		}
-		config.set("Icons.Elements.Avatar", saveMaterialData(avatarIcon));
+		config.set("Icons.Elements.Avatar", saveMaterial(avatarIcon));
 		
 		config.set("General.Description.Fire", fireDesc);
 		config.set("General.Description.Water", waterDesc);
@@ -130,7 +128,6 @@ public class Config
 		config.set("General.Description.Chi", chiDesc);
 		
 		config.set("Gui.Item.Material", guiItem.getType().toString());
-		config.set("Gui.Item.Damage", guiItem.getDurability());
 		config.set("Gui.Item.EnchantedGlow", guiItemEnchanted);
 		config.set("Gui.RequireItem", guiRequireItem);
 		config.set("Gui.GiveMessage", getGiveMessage);
@@ -170,7 +167,7 @@ public class Config
 	
 	/**Makes MaterialData into a string*/
 	@SuppressWarnings("deprecation")
-	protected static String saveMaterialData(Material data)
+	protected static String saveMaterial(Material data)
 	{
 		String s = data.toString();
 		return s;
@@ -178,7 +175,7 @@ public class Config
 	
 	/**Loads MaterialData from a string*/
 	@SuppressWarnings("deprecation")
-	protected static Material loadMaterialData(String data)
+	protected static Material loadMaterial(String data)
 	{
 		if (data == null || data.equals("")) return Material.STONE;
 		Material material = Material.getMaterial(data);
