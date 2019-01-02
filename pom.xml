@@ -19,6 +19,13 @@
       <version>1.13.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.runefist</groupId>
+      <artifactId>bendingboard</artifactId>
+      <version>LATEST</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/BendingBoard-1.2.0.jar</systemPath>
+    </dependency>
     <!-- ProjectKorra -->
     <dependency>
       <groupId>com.projectkorra</groupId>

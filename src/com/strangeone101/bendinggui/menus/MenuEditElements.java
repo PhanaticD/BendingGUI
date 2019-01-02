@@ -81,7 +81,7 @@ public class MenuEditElements extends MenuBase
 		}, Arrays.asList(new String[] {ChatColor.GRAY + "Are you sure you want to remove all",ChatColor.GRAY + player.getName() + "'s elements? This can't",ChatColor.GRAY + "be undone"}),
 		Arrays.asList(new String[] {ChatColor.GRAY + "Return back to the element menu"}));
 		
-		MenuItem item = new MenuItem(ChatColor.RED + "Remove All Elements", new MaterialData(Material.BARRIER)) 
+		MenuItem item = new MenuItem(ChatColor.RED + "Remove All Elements", Material.BARRIER)
 		{
 			@Override
 			public void onClick(Player player) 
@@ -179,7 +179,7 @@ public class MenuEditElements extends MenuBase
 	public MenuItem getBackItem()
 	{
 		String s = this.prev == null ? "Exit Menu" : "Back";
-		MenuItem item = new MenuItem(ChatColor.YELLOW + s, new MaterialData(Material.ARROW)) {
+		MenuItem item = new MenuItem(ChatColor.YELLOW + s, Material.ARROW) {
 			@Override
 			public void onClick(Player player) 
 			{
@@ -196,18 +196,18 @@ public class MenuEditElements extends MenuBase
 		return item;
 	}
 	
-	public MaterialData getElementData(Element type)
+	public Material getElementData(Element type)
 	{
 		if (type instanceof SubElement)
 		{
 			type = ((SubElement)type).getParentElement();
 		}
-		if (type == Element.FIRE) return new MaterialData(Material.BLAZE_POWDER);
-		if (type == Element.WATER) return new MaterialData(Material.WATER_BUCKET);
-		if (type == Element.CHI) return new MaterialData(Material.STICK);
-		if (type == Element.EARTH) return new MaterialData(Material.GRASS);
-		if (type == Element.AIR) return new MaterialData(Material.STRING);
-		else return new MaterialData(Material.REDSTONE);
+		if (type == Element.FIRE) return Material.BLAZE_POWDER;
+		if (type == Element.WATER) return Material.WATER_BUCKET;
+		if (type == Element.CHI) return Material.STICK;
+		if (type == Element.EARTH) return Material.GRASS;
+		if (type == Element.AIR) return Material.STRING;
+		else return Material.REDSTONE;
 	}
 	
 	@Override

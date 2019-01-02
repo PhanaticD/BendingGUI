@@ -41,7 +41,7 @@ public class MenuPresets extends MenuBase
 	public MenuItem getArrowItem()
 	{
 		String s = ChatColor.YELLOW + "Return to menu"; 
-		MenuItem item = new MenuItem(ChatColor.YELLOW +  s, new MaterialData(Material.ARROW))
+		MenuItem item = new MenuItem(ChatColor.YELLOW +  s, Material.ARROW)
 		{
 			@Override
 			public void onClick(Player player) 
@@ -60,7 +60,7 @@ public class MenuPresets extends MenuBase
 		
 		if (Preset.getPreset(p, preset) != null) {
 			String s = ChatColor.YELLOW + "Return to menu"; 
-			MenuItem item = new MenuItem(ChatColor.YELLOW +  s, new MaterialData(Material.ARROW))
+			MenuItem item = new MenuItem(ChatColor.YELLOW +  s, Material.ARROW)
 			{
 				@Override
 				public void onClick(Player player) 

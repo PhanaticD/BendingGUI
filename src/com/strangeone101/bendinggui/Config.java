@@ -20,8 +20,8 @@ import com.projectkorra.projectkorra.Element.SubElement;
 public class Config 
 {
 	//public static List<SubElement> subElementsEnableIcons = Arrays.asList(new SubElement[] {SubElement.Lavabending, SubElement.Icebending});
-	public static HashMap<Element, MaterialData> elementIcons = new HashMap<Element, MaterialData>();
-	public static MaterialData avatarIcon = new MaterialData(Material.BEACON);
+	public static HashMap<Element, Material> elementIcons = new HashMap<Element, Material>();
+	public static Material avatarIcon = Material.BEACON;
 	
 	public static String fireDesc = "Firebenders can create fire with their bare fists. They are more prone to fire based damage and in some cases are completely fire resistant. Some skilled firebenders can even create lightning, making them very dangerous.";
 	public static String airDesc = "Airbenders can manipulate air at will, making them extremely fast and agile and have a powerful connection with spirits. They can also jump higher, run faster and they take no fall damage when they hit the ground.";
@@ -42,23 +42,23 @@ public class Config
 	@SuppressWarnings({ "deprecation" })
 	public static void load()
 	{
-		elementIcons.put(Element.ICE, new MaterialData(Material.ICE));
-		elementIcons.put(Element.LAVA, new MaterialData(Material.STAINED_CLAY, (byte)1));
-		elementIcons.put(Element.BLOOD, new MaterialData(Material.STAINED_CLAY, (byte)14));
-		elementIcons.put(Element.METAL, new MaterialData(Material.IRON_BLOCK));
-		elementIcons.put(Element.LIGHTNING, new MaterialData(Material.NETHERRACK));
-		elementIcons.put(Element.COMBUSTION, new MaterialData(Material.NETHERRACK));
-		elementIcons.put(Element.FLIGHT, new MaterialData(Material.QUARTZ_BLOCK));
-		elementIcons.put(Element.HEALING, new MaterialData(Material.STAINED_CLAY, (byte)11));
-		elementIcons.put(Element.PLANT, new MaterialData(Material.LEAVES));
-		elementIcons.put(Element.SAND, new MaterialData(Material.SAND));
-		elementIcons.put(Element.SPIRITUAL, new MaterialData(Material.QUARTZ_BLOCK));
+		elementIcons.put(Element.ICE, Material.ICE);
+		elementIcons.put(Element.LAVA, Material.ORANGE_TERRACOTTA);
+		elementIcons.put(Element.BLOOD, Material.RED_TERRACOTTA);
+		elementIcons.put(Element.METAL, Material.IRON_BLOCK);
+		elementIcons.put(Element.LIGHTNING, Material.NETHERRACK);
+		elementIcons.put(Element.COMBUSTION, Material.NETHERRACK);
+		elementIcons.put(Element.FLIGHT, Material.QUARTZ_BLOCK);
+		elementIcons.put(Element.HEALING, Material.BLUE_TERRACOTTA);
+		elementIcons.put(Element.PLANT, Material.OAK_LEAVES);
+		elementIcons.put(Element.SAND, Material.SAND);
+		elementIcons.put(Element.SPIRITUAL, Material.QUARTZ_BLOCK);
 		
-		elementIcons.put(Element.AIR, new MaterialData(Material.QUARTZ_BLOCK));
-		elementIcons.put(Element.WATER, new MaterialData(Material.STAINED_CLAY, (byte)11));
-		elementIcons.put(Element.FIRE, new MaterialData(Material.NETHERRACK));
-		elementIcons.put(Element.EARTH, new MaterialData(Material.GRASS));
-		elementIcons.put(Element.CHI, new MaterialData(Material.STAINED_CLAY, (byte)4));
+		elementIcons.put(Element.AIR, Material.QUARTZ_BLOCK);
+		elementIcons.put(Element.WATER, Material.BLUE_TERRACOTTA);
+		elementIcons.put(Element.FIRE, Material.NETHERRACK);
+		elementIcons.put(Element.EARTH, Material.GRASS_BLOCK);
+		elementIcons.put(Element.CHI, Material.YELLOW_TERRACOTTA);
 		
 		FileConfiguration config = new YamlConfiguration();
 		try {
@@ -67,14 +67,14 @@ public class Config
 			for (Element e : Element.getSubElements())
 			{
 				String stringicon = config.getString("Icons.SubElements." + e.getName(), saveMaterialData(elementIcons.get(e)));
-				MaterialData icon = loadMaterialData(stringicon);
+				Material icon = loadMaterialData(stringicon);
 				elementIcons.put(e, icon);
 			}
 			
 			for (Element e1 : Element.getMainElements())
 			{
 				String stringicon = config.getString("Icons.Elements." + e1.getName(), saveMaterialData(elementIcons.get(e1)));
-				MaterialData icon = loadMaterialData(stringicon);
+				Material icon = loadMaterialData(stringicon);
 				elementIcons.put(e1, icon);
 			}
 			avatarIcon = loadMaterialData(config.getString("Icons.Elements.Avatar", saveMaterialData(avatarIcon)));
@@ -170,19 +170,18 @@ public class Config
 	
 	/**Makes MaterialData into a string*/
 	@SuppressWarnings("deprecation")
-	protected static String saveMaterialData(MaterialData data)
+	protected static String saveMaterialData(Material data)
 	{
-		String s = data.getItemType().toString() + ":" + data.getData();
-		return s.endsWith(":0") ? s.split("\\:")[0] : s;
+		String s = data.toString();
+		return s;
 	}
 	
 	/**Loads MaterialData from a string*/
 	@SuppressWarnings("deprecation")
-	protected static MaterialData loadMaterialData(String data)
+	protected static Material loadMaterialData(String data)
 	{
-		if (data == null || data.equals("")) return new MaterialData(Material.STONE);
-		Material material = Material.getMaterial(data.contains(":") ? data.split("\\:")[0] : data);
-		byte b = data.contains(":") ? Byte.parseByte(data.split("\\:")[1]) : (byte)0;
-		return new MaterialData(material, b);
+		if (data == null || data.equals("")) return Material.STONE;
+		Material material = Material.getMaterial(data);
+		return material;
 	}
 }

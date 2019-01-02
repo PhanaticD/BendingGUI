@@ -3,6 +3,7 @@ package com.strangeone101.bendinggui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -12,22 +13,15 @@ public abstract class MenuItem{
 
 	protected List<String> lore = new ArrayList<String>();
 	protected MenuBase menu;
-	protected int number;
-	protected MaterialData icon;
+	protected Material icon;
 	protected String text;
 	protected boolean isShiftClicked = false;
 	protected boolean isEnchanted = false;
 	
-	public MenuItem(String text, MaterialData icon, int number) 
+	public MenuItem(String text, Material icon)
 	{
 		this.text = text;
         this.icon = icon;
-        this.number = number;
-	}
-	
-	public MenuItem(String string, MaterialData icon)
-	{
-		this(string, icon, 1);
 	}
 	
 	public void setEnchanted(boolean bool)
@@ -39,11 +33,7 @@ public abstract class MenuItem{
         return menu;
     }
 
-    public int getNumber() {
-        return number;
-    }
-
-    public MaterialData getIcon() {
+    public Material getIcon() {
         return icon;
     }
 
@@ -54,7 +44,7 @@ public abstract class MenuItem{
 	@SuppressWarnings("deprecation")
 	public ItemStack getItemStack() 
 	{
-		ItemStack slot = new ItemStack(getIcon().getItemType(), getNumber(), getIcon().getData());
+		ItemStack slot = new ItemStack(getIcon());
         ItemMeta meta = slot.getItemMeta();
         meta.setLore(lore);
         meta.setDisplayName(getText());

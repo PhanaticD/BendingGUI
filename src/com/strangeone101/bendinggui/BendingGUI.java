@@ -22,11 +22,7 @@ import com.projectkorra.projectkorra.Element.SubElement;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.strangeone101.bendinggui.command.GuiCommand;
 import com.strangeone101.bendinggui.nms.INMSManager;
-import com.strangeone101.bendinggui.nms.NMSManager_110R1;
-import com.strangeone101.bendinggui.nms.NMSManager_110R2;
 import com.strangeone101.bendinggui.nms.NMSManager_111R1;
-import com.strangeone101.bendinggui.nms.NMSManager_19R1;
-import com.strangeone101.bendinggui.nms.NMSManager_19R2;
 
 public class BendingGUI extends JavaPlugin
 {
@@ -305,28 +301,9 @@ public class BendingGUI extends JavaPlugin
 	    try 
 	    {
 	        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
-	        if (version.equals("v1_9_R1")) 
-		    {
-		    	return new NMSManager_19R1();
-		    }
-		    else if (version.equals("v1_9_R2")) 
-		    {
-		    	return new NMSManager_19R2();
-		    }
-		    else if (version.equals("v1_10_R1")) 
-		    {
-		    	return new NMSManager_110R1();
-		    }
-		    else if (version.equals("v1_10_R2")) 
-		    {
-		    	return new NMSManager_110R2();
-		    }
-		    else if (version.equals("v1_11_R1")) 
-		    {
+
 		    	return new NMSManager_111R1();
-		    } else {
-		    	return new NMSManager_111R1();
-		    }
+
 	    } 
 	    catch (ArrayIndexOutOfBoundsException e) 
 	    {

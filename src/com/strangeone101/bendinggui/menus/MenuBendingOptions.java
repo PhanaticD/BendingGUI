@@ -71,7 +71,7 @@ public class MenuBendingOptions extends MenuBase
 	@SuppressWarnings("deprecation")
 	public MenuItem getItemForMove(OfflinePlayer player, final String move, final int index)
 	{
-		MaterialData mat = new MaterialData(Material.STAINED_GLASS, (byte)4);
+		Material mat = Material.YELLOW_STAINED_GLASS;
 		Element mainElement = CoreAbility.getAbility(move).getElement();
 		if (mainElement == Element.AIR) {mat = Config.elementIcons.get(Element.AIR);}
 		else if (mainElement == Element.EARTH) {mat = Config.elementIcons.get(Element.EARTH);}
@@ -173,7 +173,7 @@ public class MenuBendingOptions extends MenuBase
 	@SuppressWarnings("deprecation")
 	public MenuItem getItemForSlot(OfflinePlayer player, final int index)
 	{
-		MaterialData mat = new MaterialData(Material.STAINED_GLASS_PANE, (byte)15);
+		Material mat = Material.BLACK_STAINED_GLASS_PANE;
 		final String move = this.getMoveForSlot(player, index + 1);
 		ChatColor c = ChatColor.RED;
 		if (move != null && !move.equals("null"))
@@ -181,12 +181,12 @@ public class MenuBendingOptions extends MenuBase
 			Element element = CoreAbility.getAbility(move).getElement();
 			if (element instanceof SubElement) element = ((SubElement)element).getParentElement();
 			c = element == Element.AIR ? ChatColor.GRAY : (element == Element.CHI ? ChatColor.GOLD : (element == Element.EARTH ? ChatColor.GREEN : (element == Element.FIRE ? ChatColor.RED : (element == Element.WATER ? ChatColor.BLUE : (element == Element.AVATAR ? ChatColor.LIGHT_PURPLE : element.getColor())))));
-			if (element == Element.AIR) {mat.setData((byte)0);}
-			else if (element == Element.EARTH) {mat.setData((byte)5);}
-			else if (element == Element.FIRE) {mat.setData((byte)14);}
-			else if (element == Element.WATER) {mat.setData((byte)11);}
-			else if (element == Element.CHI) {mat.setData((byte)4);}
-			else {mat.setData((byte)10);}
+			if (element == Element.AIR) {mat = Material.GLASS_PANE;}
+			else if (element == Element.EARTH) {mat = Material.LIME_STAINED_GLASS_PANE;}
+			else if (element == Element.FIRE) {mat = Material.RED_STAINED_GLASS_PANE;}
+			else if (element == Element.WATER) {mat = Material.BLUE_STAINED_GLASS_PANE;}
+			else if (element == Element.CHI) {mat = Material.YELLOW_STAINED_GLASS;}
+			else {mat = Material.PURPLE_STAINED_GLASS_PANE;}
 		}
 		final ChatColor c1 = c;
 		
@@ -291,7 +291,7 @@ public class MenuBendingOptions extends MenuBase
 	/**Toggles on the removal tool. So players can unbind their bending*/
 	public MenuItem getRemoveToolItem(OfflinePlayer player)
 	{
-		MaterialData material = new MaterialData(Material.BARRIER);
+		Material material = Material.BARRIER;
 		String s = ChatColor.RED + "Removal Tool " + GRAY + (this.mode == Mode.DELETE ? "(On)" : "(Off)");
 		MenuItem item = new MenuItem(s, material) {
 
@@ -332,7 +332,7 @@ public class MenuBendingOptions extends MenuBase
 	public MenuItem getBBToggle(Player player)
 	{
 		final boolean b = !BendingBoard.isToggled(player);
-		MaterialData material = new MaterialData(Material.INK_SACK, (byte) (b ? 10 : 8));
+		Material material = b ? Material.LIME_DYE : Material.GRAY_DYE;
 		String s = (b ? ChatColor.GREEN : ChatColor.RED) + "Toggle BendingBoard " + GRAY + (b ? "(ACTIVE)" : "");
 		MenuItem item = new MenuItem(s, material) {
 
@@ -358,7 +358,7 @@ public class MenuBendingOptions extends MenuBase
 	/**Shows lots of info for moves when you click them*/
 	public MenuItem getInfoToolItem(OfflinePlayer player)
 	{
-		MaterialData material = new MaterialData(Material.SIGN);
+		Material material = Material.SIGN;
 		String s = "Move Help Tool " + GRAY + (this.mode == Mode.INFO ? "(On)" : "(Off)");
 		s = ChatColor.YELLOW + s;
 		MenuItem item = new MenuItem(s, material) {
@@ -383,7 +383,7 @@ public class MenuBendingOptions extends MenuBase
 	/**The arrow for moving pages*/
 	public MenuItem getPageArrow(OfflinePlayer player, final boolean isRightDirection)
 	{
-		MaterialData material = new MaterialData(Material.ARROW);
+		Material material = Material.ARROW;
 		String s = ChatColor.YELLOW + (isRightDirection ? "Next Page " : "Previous Page ");
 		s = s + GRAY + "(" + ChatColor.YELLOW + (this.movePage + 1) + GRAY + "/" + ChatColor.YELLOW + this.getMaxPages() + GRAY + ")";
 		MenuItem item = new MenuItem(s, material) {
@@ -429,7 +429,7 @@ public class MenuBendingOptions extends MenuBase
 	{
 		final MenuBendingOptions instance = this;
 		final boolean b = this.openPlayer.hasPermission("bending.admin.add");
-		MenuItem item = new MenuItem(ChatColor.YELLOW + (b ? "Add/Remove Elements" : "Change Element"), new MaterialData(Material.NETHER_STAR)) {
+		MenuItem item = new MenuItem(ChatColor.YELLOW + (b ? "Add/Remove Elements" : "Change Element"), Material.NETHER_STAR) {
 			@Override
 			public void onClick(Player player) 
 			{
@@ -464,7 +464,7 @@ public class MenuBendingOptions extends MenuBase
 	
 	public MenuItem getComboItem()
 	{
-		MenuItem item = new MenuItem(ChatColor.YELLOW + ("View Combos"), new MaterialData(Material.MAGMA_CREAM)) {
+		MenuItem item = new MenuItem(ChatColor.YELLOW + ("View Combos"), Material.MAGMA_CREAM) {
 			@Override
 			public void onClick(Player player) 
 			{
@@ -482,9 +482,8 @@ public class MenuBendingOptions extends MenuBase
 	public MenuItem getBendingToggle()
 	{
 		boolean isToggled = !BendingPlayer.getBendingPlayer(this.thePlayer.getName()).isToggled();
-		byte damage = (byte) (isToggled ? 5 : 14);
 		final OfflinePlayer p = this.thePlayer;
-		MenuItem item = new MenuItem((isToggled ? ChatColor.GREEN + "En" : ChatColor.RED + "Dis") + "able Bending", new MaterialData(Material.WOOL, damage)) {
+		MenuItem item = new MenuItem((isToggled ? ChatColor.GREEN + "En" : ChatColor.RED + "Dis") + "able Bending", isToggled ? Material.LIME_WOOL : Material.RED_WOOL) {
 			@Override
 			public void onClick(Player player) 
 			{
@@ -544,7 +543,7 @@ public class MenuBendingOptions extends MenuBase
 	{
 		final MenuBendingOptions menu1 = this;
 		String string = thePlayer.getName() != openPlayer.getName() ? ChatColor.YELLOW + thePlayer.getName() + "'s Bending" : ChatColor.YELLOW + "Your bending";
-		MenuItem item = new MenuItem(string, new MaterialData(Material.SKULL_ITEM, (byte)3)) {
+		MenuItem item = new MenuItem(string, Material.PLAYER_HEAD) {
 
 			@Override
 			public void onClick(Player player) 
@@ -704,7 +703,7 @@ public class MenuBendingOptions extends MenuBase
 	@SuppressWarnings("deprecation")
 	public MenuItem getItemForCombo(OfflinePlayer player, final String move, final int index)
 	{
-		MaterialData mat = new MaterialData(Material.STAINED_GLASS, (byte)4);
+		Material mat = Material.YELLOW_STAINED_GLASS;
 		Element mainElement = getComboElement(move);
 		if (mainElement == Element.AIR) {mat = Config.elementIcons.get(Element.AIR);}
 		else if (mainElement == Element.EARTH) {mat = Config.elementIcons.get(Element.EARTH);}
@@ -822,7 +821,7 @@ public class MenuBendingOptions extends MenuBase
 			{
 				this.getInventory().clear(i);
 			}
-			else if (this.getInventory().getContents()[i].getType() != Material.SKULL_ITEM)
+			else if (this.getInventory().getContents()[i].getType() != Material.SKELETON_SKULL)
 			{
 				this.getInventory().clear(i);
 			}
@@ -840,7 +839,7 @@ public class MenuBendingOptions extends MenuBase
 			for (int i = 0; i < 18; i++)
 			{
 				@SuppressWarnings("deprecation")
-				MenuItem disabledSlot = new MenuItem(ChatColor.RED + "Bending is disabled!", new MaterialData(Material.STAINED_GLASS_PANE, (byte)7)) {
+				MenuItem disabledSlot = new MenuItem(ChatColor.RED + "Bending is disabled!", Material.GRAY_STAINED_GLASS_PANE) {
 					@Override
 					public void onClick(Player player) {}		
 				};
