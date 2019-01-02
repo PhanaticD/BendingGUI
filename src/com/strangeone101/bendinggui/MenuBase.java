@@ -50,7 +50,7 @@ public class MenuBase implements InventoryHolder {
         if (item.isEnchanted)
         {
         	//stack = BendingGUI.getNMSManager().addGlow(item.getItemStack());
-        	stack = BendingGUI.getNMSManager().addGlow(stack);
+        	stack = Util.addGlow(stack);
         }
 		this.getInventory().setItem(index, stack);
         items.put(index, item);

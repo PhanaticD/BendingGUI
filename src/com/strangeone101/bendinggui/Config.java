@@ -92,13 +92,13 @@ public class Config
 			guiItemEnchanted = config.getBoolean("Gui.Item.EnchantedGlow", guiItemEnchanted);
 			Material mat = Material.getMaterial(config.getString("Gui.Item.Material", guiItem.getType().toString()));
 			getGiveMessage = config.getString("Gui.GiveMessage", getGiveMessage);
-			int damage = config.getInt("Gui.Item.Damage");
+
 			if (mat != null && mat != Material.AIR)
 			{
-				guiItem = new ItemStack(mat, 1, (short) damage);
+				guiItem = new ItemStack(mat, 1);
 				if (guiItemEnchanted)
 				{
-					guiItem = BendingGUI.getNMSManager().addGlow(guiItem);
+					guiItem = Util.addGlow(guiItem);
 				}
 			}
 			

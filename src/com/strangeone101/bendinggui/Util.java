@@ -5,14 +5,16 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import com.projectkorra.projectkorra.util.ReflectionHandler;
 import com.projectkorra.projectkorra.util.ReflectionHandler.PackageType;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
-
-public class Util 
+public class Util
 {
 	/*public static ItemStack addGlow(ItemStack stack)
 	{
@@ -34,7 +36,16 @@ public class Util
 		return stack;
 		
 	}*/
-	
+	public static ItemStack addGlow(ItemStack itemstack)
+	{
+		if(itemstack == null) return null;
+		itemstack.addUnsafeEnchantment(Enchantment.LUCK, 1);
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		itemstack.setItemMeta(meta);
+		return itemstack;
+	}
+
 	public static Object getNMSItemStack(ItemStack item) {
 		try {
 			Method asNMSCopy = ReflectionHandler.getMethod(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"), "asNMSCopy", ItemStack.class);

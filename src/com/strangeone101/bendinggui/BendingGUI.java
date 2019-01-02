@@ -21,8 +21,6 @@ import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.Element.SubElement;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.strangeone101.bendinggui.command.GuiCommand;
-import com.strangeone101.bendinggui.nms.INMSManager;
-import com.strangeone101.bendinggui.nms.NMSManager_111R1;
 
 public class BendingGUI extends JavaPlugin
 {
@@ -98,18 +96,6 @@ public class BendingGUI extends JavaPlugin
 		BendingBoard.checkPlugins();
 		
 		versionInfo = checkVersion();
-
-		if (getNMSManager() == null)
-		{
-			log.severe("This plugin is not compatible with your version of Spigot/Bukkit! Please update it or inform the plugin developer about this!");
-			enabled = false;
-			try {
-				throw new ExceptionInInitializerError("Plugin incompatible with version :" + Bukkit.getBukkitVersion() + ". Must update!");
-			} catch (ExceptionInInitializerError e) {
-				e.printStackTrace();
-			}
-			return;
-		}
 		
 		if (!versionInfo.equals(""))
 		{
@@ -292,24 +278,6 @@ public class BendingGUI extends JavaPlugin
 		}
 		return s;
 	}
-	
-	/**Credit to the Spigot Wiki for this solution. Returns the correct NMSManager 
-	 * for the version you are using. This means all versions of spigot (1.8) are 
-	 * compatible.*/
-	public static INMSManager getNMSManager()
-	{
-	    try 
-	    {
-	        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
-
-		    	return new NMSManager_111R1();
-
-	    } 
-	    catch (ArrayIndexOutOfBoundsException e) 
-	    {
-	        return null;
-	    }
-	}	
 	
 	public static ChatColor getColor(Element element)
 	{
