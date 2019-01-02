@@ -54,5 +54,5 @@ lang.yml also contains all the short descriptions for all the moves. I've tried 
 
 ### Requirements:
 
-- Spigot 1.12 
+- Spigot 1.13.2
 - ProjectKorra 1.8.7
