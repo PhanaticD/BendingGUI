@@ -1088,7 +1088,7 @@ public class MenuBendingOptions extends MenuBase
 		if (BendingBoard.isBoardEnabled() && thePlayer instanceof Player) {
 			this.addMenuItem(getBBToggle((Player) thePlayer), 3, 3);
 		}
-		
+
 	}
 	
 	/**Add an enchanted glow to an item based on inv index*/

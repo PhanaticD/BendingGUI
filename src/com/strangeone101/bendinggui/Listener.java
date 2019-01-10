@@ -1,5 +1,6 @@
 package com.strangeone101.bendinggui;
 
+import com.projectkorra.projectkorra.ability.util.MultiAbilityManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,13 +23,13 @@ public class Listener implements org.bukkit.event.Listener
 	@EventHandler(priority = EventPriority.LOW)
 	public void onItemRightClick(PlayerInteractEvent e)
 	{
-		if (e.getHand() == EquipmentSlot.OFF_HAND) return;
-		try
-		{
-			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
-			{
-				if (e.getItem() != null && e.getItem().isSimilar(BendingGUI.getGuiItem()))
-				{
+		if (e.getHand() == EquipmentSlot.OFF_HAND) {
+			return;
+		}
+		try {
+
+			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (e.getItem() != null && e.getItem().isSimilar(BendingGUI.getGuiItem()))	{
 					if (!BendingGUI.enabled) {
 						if (!BendingGUI.versionInfo.equals("")) {
 							if (e.getPlayer().hasPermission("bendinggui.admin")) {
@@ -42,15 +43,18 @@ public class Listener implements org.bukkit.event.Listener
 						}
 						return;
 					}
-					MenuBendingOptions menu = new MenuBendingOptions(e.getPlayer());
-					menu.openMenu(e.getPlayer());
+					if (MultiAbilityManager.playerAbilities.containsKey(e.getPlayer())) {
+						e.getPlayer().sendMessage(ChatColor.RED + "You cannot modify your binds right now!");
+					} else {
+						MenuBendingOptions menu = new MenuBendingOptions(e.getPlayer());
+						menu.openMenu(e.getPlayer());
+					}
 					
 					e.setCancelled(true);
 				}
 			}		
 		}
-		catch (Exception exception)
-		{
+		catch (Exception exception) {
 			e.setCancelled(true);
 			exception.printStackTrace();
 			e.getPlayer().sendMessage(ChatColor.RED + "An error occured while trying to open the bending interface. Please report this to your admin or the plugin developer!");
