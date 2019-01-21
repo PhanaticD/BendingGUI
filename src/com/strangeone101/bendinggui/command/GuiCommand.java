@@ -119,7 +119,7 @@ public class GuiCommand extends PKCommand
             if (sender.hasPermission("bendinggui.reload"))
             {
                 BendingGUI.INSTANCE.reload();
-                player.sendMessage(ChatColor.YELLOW + "BendingGUI Reloaded!");
+                sender.sendMessage(ChatColor.YELLOW + "BendingGUI Reloaded!");
                 return true;
             }
             player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
