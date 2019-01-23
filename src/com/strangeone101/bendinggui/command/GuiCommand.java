@@ -31,7 +31,7 @@ public class GuiCommand extends PKCommand
 	{
 		if (!(sender instanceof Player) && args.size() == 0)
 		{
-			sender.sendMessage("Only players can run this command!");
+			sender.sendMessage(ChatColor.YELLOW + "Command usage from console is /gui <version/reload>");
 			return true;
 		}
 		
@@ -40,9 +40,10 @@ public class GuiCommand extends PKCommand
 			sender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
 			return true;
 		}
-		Player player = (Player) sender;
-		if (args.size() == 0)
+
+		if (args.size() == 0 && sender instanceof Player)
 		{
+			Player player = (Player) sender;
 			if (Config.guiRequireItem)
 			{
 				if (player.getInventory().contains(BendingGUI.getGuiItem()))
@@ -60,8 +61,9 @@ public class GuiCommand extends PKCommand
 			
 			return true;
 		}
-		else if (args.get(0).equalsIgnoreCase("choose") || args.get(0).equalsIgnoreCase("c") || args.get(0).equalsIgnoreCase("ch"))
+		else if ((args.get(0).equalsIgnoreCase("choose") || args.get(0).equalsIgnoreCase("c") || args.get(0).equalsIgnoreCase("ch")) && sender instanceof Player)
 		{
+			Player player = (Player) sender;
 			if (args.size() == 2)
 			{
 				if (player.hasPermission("bending.admin.choose"))
@@ -83,24 +85,25 @@ public class GuiCommand extends PKCommand
 				}
 				return true;
 			}
-			if (!(sender instanceof Player))
+			if (!player.hasPermission("bending.command.choose"))
 			{
-				sender.sendMessage("Only players can run this command!");
-				return false;
+				player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
 			}
-			if (BendingPlayer.getBendingPlayer(player).getElements().isEmpty() && player.hasPermission("bending.command.rechoose"))
+			else if (BendingPlayer.getBendingPlayer(player).getElements().size() == 0)
 			{
 				MenuSelectElement menu = new MenuSelectElement(player);
 				menu.openMenu(player);
 			}
-			else if (!player.hasPermission("bending.command.rechoose"))
+			else if (player.hasPermission("bending.command.rechoose"))
+			{
+				MenuSelectElement menu = new MenuSelectElement(player);
+				menu.openMenu(player);
+			}
+			else
 			{
 				player.sendMessage(ChatColor.RED + "You have already chosen an element!");
 			}
-			else if (!player.hasPermission("bending.command.choose"))
-			{
-				player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
-			}
+
 		}
 		else if (args.get(0).equalsIgnoreCase("version") || args.get(0).equalsIgnoreCase("v") || args.get(0).equalsIgnoreCase("ver"))
 		{
@@ -108,11 +111,11 @@ public class GuiCommand extends PKCommand
             {
                 sender.sendMessage(ChatColor.YELLOW + "BendingGUI is version " + BendingGUI.INSTANCE.getDescription().getVersion() + ", running on ProjectKorra " + ProjectKorra.plugin.getDescription().getVersion());
                 if (!BendingGUI.versionInfo.equals("")) {
-                	sender.sendMessage(ChatColor.RED + "Support for this version of ProjectKorra is not guarenteed.");
+                	sender.sendMessage(ChatColor.RED + "Support for this version of ProjectKorra is not guaranteed.");
                 }
                 return true;
             }
-			player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+			sender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
 		}
         else if (args.get(0).equalsIgnoreCase("reload") || args.get(0).equalsIgnoreCase("r") || args.get(0).equalsIgnoreCase("rel"))
         {
@@ -122,23 +125,20 @@ public class GuiCommand extends PKCommand
                 sender.sendMessage(ChatColor.YELLOW + "BendingGUI Reloaded!");
                 return true;
             }
-            player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+            sender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
         }
-        else if (args.get(0).equalsIgnoreCase("help") || args.get(0).equalsIgnoreCase("h"))
-        {
-            sender.sendMessage(ChatColor.YELLOW + "Command usage is /gui or /gui <choose/version/reload> or /gui [player]");    
-        }
-		else
+		else if (sender instanceof Player)
 		{
-			Player playero = Bukkit.getPlayer(args.get(1));
-			if (playero == null && player.hasPermission("bendinggui.admin"))
+			Player player = (Player) sender;
+			Player playero = Bukkit.getPlayer(args.get(0));
+			if (playero == null && sender.hasPermission("bendinggui.admin"))
 			{
 				sender.sendMessage(ChatColor.RED + "Error while finding player!");
 				return true;
 			}
-			else if (playero != null && !player.hasPermission("bendinggui.admin"))
+			else if (playero != null && !sender.hasPermission("bendinggui.admin"))
 			{
-				player.sendMessage(ChatColor.RED + "You don't have permission to edit other players bending!");
+				sender.sendMessage(ChatColor.RED + "You don't have permission to edit other players bending!");
 			}
 			else if (playero == null)
 			{
@@ -151,6 +151,8 @@ public class GuiCommand extends PKCommand
 			}
 			return true;
 			
+		} else {
+			sender.sendMessage(ChatColor.YELLOW + "Command usage is /gui or /gui <choose/version/reload> or /gui [player]");
 		}
 		return true;
 	}
